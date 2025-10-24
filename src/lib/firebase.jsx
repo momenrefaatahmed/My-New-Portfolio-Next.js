@@ -1,32 +1,20 @@
-// lib/firebase.js
-import { initializeApp, getApps } from 'firebase/app'
-import {
-  getFirestore,
-  collection,
-  getDocs,
-  query,
-  orderBy,
-} from 'firebase/firestore'
+import { getApps, initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
+import { getFirestore } from 'firebase/firestore'
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyDqzxKQROqzjNZCCfd-tbxpd33KrYHY8Rw',
-  authDomain: 'my-portfolio-820d4.firebaseapp.com',
-  databaseURL: 'https://my-portfolio-820d4-default-rtdb.firebaseio.com',
-  projectId: 'my-portfolio-820d4',
-  storageBucket: 'my-portfolio-820d4.firebasestorage.app',
-  messagingSenderId: '961021877241',
-  appId: '1:961021877241:web:43205c2d9368bd424bbb28',
-  measurementId: 'G-FCVEDZCPS1',
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
 }
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0]
 
-//  Firestore
 const db = getFirestore(app)
-
-//  Auth
 const auth = getAuth(app)
 
-//  Exports
-export { app, db, auth, collection, getDocs, query, orderBy }
+export { app, auth, db }
