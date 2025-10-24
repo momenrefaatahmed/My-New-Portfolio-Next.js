@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { db } from '@/lib/firebase'
-import { addDoc, collection } from 'firebase/firestore'
+import { addDoc, collection, getDocs, updateDoc, doc } from 'firebase/firestore'
 
 export default function NewProject() {
   const [name, setName] = useState('')
@@ -15,7 +15,6 @@ export default function NewProject() {
   const [liveDemo, setLiveDemo] = useState('')
   const [githubCode, setGithubCode] = useState('')
 
-  // ✅ إضافة تكنولوجيا جديدة
   const handleAddTech = () => {
     if (techName && techUrl) {
       setTechnologies([...technologies, { [techName]: techUrl }])
@@ -24,16 +23,25 @@ export default function NewProject() {
     }
   }
 
-  // ✅ حذف تكنولوجيا معينة
   const handleRemoveTech = (index) => {
     const updated = technologies.filter((_, i) => i !== index)
     setTechnologies(updated)
   }
 
-  // ✅ إرسال البيانات إلى Firestore
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
+      // 1️⃣ جلب جميع المشاريع الموجودة
+      const projectsSnapshot = await getDocs(collection(db, 'projects'))
+      const projects = projectsSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+
+      // 2️⃣ تحديث order لكل مشروع قديم +1
+      const updatePromises = projects.map((project) =>
+        updateDoc(doc(db, 'projects', project.id), { order: project.order + 1 })
+      )
+      await Promise.all(updatePromises)
+
+      // 3️⃣ إضافة المشروع الجديد بـ order = 0
       await addDoc(collection(db, 'projects'), {
         name,
         description,
@@ -42,8 +50,12 @@ export default function NewProject() {
         technologies,
         liveDemo,
         githubCode,
+        order: 0,
       })
+
       alert('✅ Project added successfully!')
+
+      // 4️⃣ إعادة ضبط الفورم
       setName('')
       setDescription('')
       setImage('')
@@ -151,7 +163,6 @@ export default function NewProject() {
           </button>
         </div>
 
-        {/* ✅ عرض التكنولوجيز مع زر الحذف */}
         <div className="flex flex-wrap gap-3 mt-2">
           {technologies.map((tech, index) => {
             const [techName, techUrl] = Object.entries(tech)[0]
@@ -175,7 +186,6 @@ export default function NewProject() {
           })}
         </div>
 
-        {/* Submit */}
         <button
           type="submit"
           className="mt-6 px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"

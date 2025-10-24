@@ -10,6 +10,7 @@ import About from '@/components/about/About'
 import ContactUs from '@/components/contact/ContactUs'
 import HomePage from '@/components/home/HomePage'
 import Navebar from '@/components/layout/Navebar'
+import SplashCursor from '@/components/ui/SplashCursor'
 // Components
 
 import { useEffect, useState } from 'react'
@@ -42,6 +43,7 @@ export default function Home() {
   return (
     <div className="min-h-screen relative overflow-hidden">
       <Navebar />
+      
 
       <div className="fixed top-0 left-0 right-0 bottom-0 pointer-events-none -z-20">
         <Squares

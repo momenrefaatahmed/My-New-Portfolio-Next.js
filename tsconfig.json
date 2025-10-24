@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/animation/Squares .jsx", "src/app/components/Navebar.jsx", "src/app/animation/RotatingText.jsx", "src/app/components/HomePage.jsx", "src/components/ui/borderbeam.tsx", "src/components/ui/moving-border.tsx", "src/components/ui/ProfileCard.tsx", "src/components/ui/LogoLoop.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/app/animation/Squares .jsx", "src/app/components/Navebar.jsx", "src/app/animation/RotatingText.jsx", "src/app/components/HomePage.jsx", "src/components/ui/borderbeam.tsx", "src/components/ui/moving-border.tsx", "src/components/ui/ProfileCard.tsx", "src/components/ui/LogoLoop.jsx", "src/components/layout/Navebar.jsx"],
   "exclude": ["node_modules"]
 }
