@@ -36,7 +36,7 @@ export default function ContactUs() {
               />
             </a>
             <a
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/momen_r_ahmed/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -46,7 +46,7 @@ export default function ContactUs() {
               />
             </a>
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/momen.refaat.316937"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -56,7 +56,7 @@ export default function ContactUs() {
               />
             </a>
             <a
-              href="https://github.com/momenrefaatah"
+              href="https://github.com/momenrefaatahmed"
               target="_blank"
               rel="noopener noreferrer"
             >
