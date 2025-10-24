@@ -3,11 +3,11 @@ import { db } from '@/lib/firebase'
 import { doc, getDoc } from 'firebase/firestore'
 
 // Animation
-import Galaxy from '../../../components/ui/Galaxy'
+import Galaxy from '@/components/ui/Galaxy'
 // Animation
 
 //Components
-import Navbar from '@/app/components/Navebar'
+import Navbar from '@/components/layout/Navebar'
 //Components
 
 // Hooks
