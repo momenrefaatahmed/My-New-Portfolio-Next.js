@@ -66,9 +66,9 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
   enableMobileTilt = false,
   mobileTiltSensitivity = 5,
   miniAvatarUrl,
-  name = 'Javi A. Torres',
-  title = 'Software Engineer',
-  handle = 'javicodes',
+  name = 'Momen Refaat',
+  title = 'Front-End Developer',
+  handle = 'momenrefaat64',
   status = 'Online',
   contactText = 'Contact',
   showUserInfo = true,
@@ -311,9 +311,16 @@ const ProfileCardComponent: React.FC<ProfileCardProps> = ({
       } as React.CSSProperties),
     [iconUrl, grainUrl, showBehindGradient, behindGradient, innerGradient]
   )
-
+  const whatsappNumber = '+201066935127' 
+  const whatsappMessage = encodeURIComponent('Hello! I want to contact you.')
+  const whatsappLink = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
   const handleContactClick = useCallback(() => {
-    onContactClick?.()
+    if (onContactClick) {
+      onContactClick()
+    } else {
+      // فتح WhatsApp إذا لم يتم تمرير onContactClick
+      window.open(whatsappLink, '_blank')
+    }
   }, [onContactClick])
 
   return (

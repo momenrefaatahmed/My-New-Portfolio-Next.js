@@ -68,18 +68,18 @@ export default function Navbar() {
                 <ul className="hidden md:flex items-center gap-5 font-bold text-green-400">
                   <li>
                     <button
-                      onClick={() => handleNavigation('projects')}
-                      className="py-3 px-5 rounded-4xl hover:bg-green-400 hover:text-white transition-all"
-                    >
-                      Projects
-                    </button>
-                  </li>
-                  <li>
-                    <button
                       onClick={() => handleNavigation('about')}
                       className="py-3 px-5 rounded-4xl hover:bg-green-400 hover:text-white transition-all"
                     >
                       About
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      onClick={() => handleNavigation('projects')}
+                      className="py-3 px-5 rounded-4xl hover:bg-green-400 hover:text-white transition-all"
+                    >
+                      Projects
                     </button>
                   </li>
                   <li>
