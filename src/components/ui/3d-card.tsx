@@ -95,20 +95,16 @@ export const CardBody = ({
   );
 };
 
-export const CardItem = ({
-  as: Tag = "div",
-  children,
-  className,
-  translateX = 0,
-  translateY = 0,
-  translateZ = 0,
-  rotateX = 0,
-  rotateY = 0,
-  rotateZ = 0,
-  ...rest
-}: {
+/**
+ * Fixed CardItem:
+ * - uses forwardRef to correctly pass ref to the rendered Tag
+ * - types as `as?: React.ElementType`
+ * - children typed as React.ReactNode
+ * - casts Tag to `any` when rendering to avoid the `children: never` typing issue
+ */
+type CardItemProps = {
   as?: React.ElementType;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   className?: string;
   translateX?: number | string;
   translateY?: number | string;
@@ -117,33 +113,69 @@ export const CardItem = ({
   rotateY?: number | string;
   rotateZ?: number | string;
   [key: string]: any;
-}) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isMouseEntered] = useMouseEnter();
-
-  useEffect(() => {
-    handleAnimations();
-  }, [isMouseEntered]);
-
-  const handleAnimations = () => {
-    if (!ref.current) return;
-    if (isMouseEntered) {
-      ref.current.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
-    } else {
-      ref.current.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
-    }
-  };
-
-  return (
-    <Tag
-      ref={ref}
-      className={cn("w-fit transition duration-200 ease-linear", className)}
-      {...rest}
-    >
-      {children}
-    </Tag>
-  );
 };
+
+export const CardItem = React.forwardRef<HTMLElement, CardItemProps>(
+  (
+    {
+      as: Tag = "div",
+      children,
+      className,
+      translateX = 0,
+      translateY = 0,
+      translateZ = 0,
+      rotateX = 0,
+      rotateY = 0,
+      rotateZ = 0,
+      ...rest
+    },
+    ref
+  ) => {
+    const localRef = useRef<HTMLElement | null>(null);
+    // If user passed a ref, forwardRef will handle it; still we use localRef for internal ops
+    const internalRef = (ref as any) ?? localRef;
+
+    const [isMouseEntered] = useMouseEnter();
+
+    // keep handleAnimations declared before useEffect call or define inline
+    const handleAnimations = () => {
+      const el = localRef.current as HTMLElement | null;
+      if (!el) return;
+      if (isMouseEntered) {
+        el.style.transform = `translateX(${translateX}px) translateY(${translateY}px) translateZ(${translateZ}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) rotateZ(${rotateZ}deg)`;
+      } else {
+        el.style.transform = `translateX(0px) translateY(0px) translateZ(0px) rotateX(0deg) rotateY(0deg) rotateZ(0deg)`;
+      }
+    };
+
+    useEffect(() => {
+      handleAnimations();
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isMouseEntered, translateX, translateY, translateZ, rotateX, rotateY, rotateZ]);
+
+    // Cast Tag to any to avoid strict children typing issues
+    const Component: any = Tag;
+
+    return (
+      <Component
+        ref={(node: HTMLElement) => {
+          // assign to localRef for internal use
+          localRef.current = node;
+          // forward to external ref if provided
+          if (typeof ref === "function") ref(node);
+          else if (ref && typeof (ref as any).current !== "undefined")
+            (ref as any).current = node;
+        }}
+        className={cn("w-fit transition duration-200 ease-linear", className)}
+        {...rest}
+      >
+        {children}
+      </Component>
+    );
+  }
+);
+
+CardItem.displayName = "CardItem";
 
 // Create a hook to use the context
 export const useMouseEnter = () => {
