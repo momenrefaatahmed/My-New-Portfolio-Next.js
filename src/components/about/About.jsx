@@ -106,7 +106,7 @@ export default function page() {
                 gap={40}
                 pauseOnHover
                 scaleOnHover
-                fadeOut
+                
               />
             </div>
           </div>

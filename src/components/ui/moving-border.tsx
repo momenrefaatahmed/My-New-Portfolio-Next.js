@@ -1,5 +1,4 @@
 'use client'
-import { cn } from '../../lib/utils'
 import {
   motion,
   useAnimationFrame,
@@ -8,6 +7,7 @@ import {
   useTransform,
 } from 'motion/react'
 import React, { useRef } from 'react'
+import { cn } from '../../lib/utils'
 
 export function Button({
   borderRadius = '1.75rem',
@@ -81,7 +81,7 @@ export const MovingBorder = ({
   ry?: string
   [key: string]: any
 }) => {
-  const pathRef = useRef<any>()
+  const pathRef = useRef<SVGRectElement | null>(null)
   const progress = useMotionValue<number>(0)
 
   useAnimationFrame((time) => {
